@@ -1,0 +1,18 @@
+{
+  "name": "etobi/placeimg",
+  "description": "Renders a bacon placeholder if local image file is missing. For development and fun.",
+  "type": "typo3-cms-extension",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Tobias Liebig",
+      "homepage": "http://etobi.de"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Etobi\\Placeimg\\": "Classes/"
+    }
+  }
+}
