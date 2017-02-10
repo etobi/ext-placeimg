@@ -1,0 +1,8 @@
+# cat=basic/enable; type=options[placeimg,placebacon,baconmockup,lorempixum,placekitten]; label=Which service to use to fetch placeholder images
+service=placeimg
+
+# cat=basic/enable; type=boolean; label=Enable fetching (and caching) placeholder images on the server.
+serverSide=0
+
+# cat=basic/enable; type=boolean; label=Uses absolute, external URLs in frontend output to replace placeholders
+clientSide=1

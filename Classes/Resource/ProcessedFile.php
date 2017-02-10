@@ -6,21 +6,40 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ProcessedFile extends \TYPO3\CMS\Core\Resource\ProcessedFile
 {
 
-     protected $placeholderUrl = 'http://placeimg.com/%d/%d/people/%d';
-//     protected $placeholderUrl = 'http://placebacon.net/%d/%d?image=%d';
-//     protected $placeholderUrl = 'http://baconmockup.com/%d/%d/random/?%d';
-//     protected $placeholderUrl = 'http://lorempixel.com/%d/%d/people/';
-//     protected $placeholderUrl = 'http://placekitten.com/%d/%d/?%d';
-
     public function getPublicUrl($relativeToCurrentScript = false)
     {
         $publicUrl = parent::getPublicUrl($relativeToCurrentScript);
         if (!$publicUrl || !file_exists($publicUrl)) {
             $configuration = $this->getTask()->getTargetFile()->getProcessingConfiguration();
-            $width = intval($configuration['width']) ?: $this->getProperty('width') ?: 300;
-            $height = intval($configuration['height']) ?: $this->getProperty('height') ?: 300;
-            return sprintf($this->placeholderUrl, $width, $height, mt_rand(1, 9));
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($configuration);
+            $width = intval($configuration['width']) ?:
+                    intval($configuration['maxWidth']) ?:
+                            $this->getProperty('width') ?:
+                                    300;
+            $height = intval($configuration['height']) ?:
+                    intval($configuration['maxHeight']) ?:
+                            $this->getProperty('height') ?:
+                                    300;
+            $url = $this->getPlaceImgUrl($width, $height);
+            return $url;
         }
         return $publicUrl;
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @return string
+     */
+    protected function getPlaceImgUrl($width = 300, $height = 300)
+    {
+        $configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['placeimg']);
+        $placeholderUrl = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['placeimg']['service'][$configuration['service']];
+        return sprintf(
+                $placeholderUrl,
+                $width,
+                $height,
+                mt_rand(1, 9)
+        );
     }
 }
