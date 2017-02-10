@@ -11,7 +11,6 @@ class ProcessedFile extends \TYPO3\CMS\Core\Resource\ProcessedFile
         $publicUrl = parent::getPublicUrl($relativeToCurrentScript);
         if (!$publicUrl || !file_exists($publicUrl)) {
             $configuration = $this->getTask()->getTargetFile()->getProcessingConfiguration();
-            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($configuration);
             $width = intval($configuration['width']) ?:
                     intval($configuration['maxWidth']) ?:
                             $this->getProperty('width') ?:
